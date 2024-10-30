@@ -16,37 +16,52 @@ export const sendMessage = async (req, res) => {
         await Message.create({ name, email, subject, message });
 
         // Respond with success
-        res.status(200).json({
+        return res.status(200).json({
             success: true,
             message: "Message sent successfully",
         });
     } 
-    catch (error) {
+    // catch (error) {
 
-        if(error.name === "ValidationError"){
-            let errorMessage = "";
-            if (error.errors.name) {
-                errorMessage += error.errors.name.message + " ";
-            }
-            if(error.errors.email){
-                errorMessage += error.errors.email.message + " ";
-            }
-            if(error.errors.subject){
-                errorMessage += error.errors.subject.message + " ";
-            }
-            if(error.errors.message){
-                errorMessage += error.errors.message.message + " ";
-            }
-            return res.status(200).json({
+    //     if(error.name === "ValidationError"){
+    //         let errorMessage = "";
+    //         if (error.errors.name) {
+    //             errorMessage += error.errors.name.message + " ";
+    //         }
+    //         if(error.errors.email){
+    //             errorMessage += error.errors.email.message + " ";
+    //         }
+    //         if(error.errors.subject){
+    //             errorMessage += error.errors.subject.message + " ";
+    //         }
+    //         if(error.errors.message){
+    //             errorMessage += error.errors.message.message + " ";
+    //         }
+    //         return res.status(400).json({
+    //             success: false,
+    //             message: errorMessage,
+    //         });
+    //     }
+
+    //     // Handle internal server errors
+    //     return res.status(500).json({
+    //         success: false,
+    //         message: "Unknown Error",
+    //     });
+    catch (error) {
+        // Handle validation errors
+        if (error.name === "ValidationError") {
+            const errorMessage = Object.values(error.errors).map(err => err.message).join(" ");
+            return res.status(400).json({
                 success: false,
                 message: errorMessage,
             });
         }
 
-        // Handle internal server errors
+        // Handle other server errors
         return res.status(500).json({
             success: false,
-            message: "Unknown Error",
+            message: "An unknown error occurred. Please try again.",
         });
     }    
 };
