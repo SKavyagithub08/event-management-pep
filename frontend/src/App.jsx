@@ -1,6 +1,6 @@
-import React from 'react'
+import React from 'react';
 import "./App.css";
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom"; // Only include this line once
 import { Toaster } from "react-hot-toast";
 import Navbar from "./components/Navbar";
 import HeroSection from "./components/HeroSection";
@@ -8,12 +8,9 @@ import Services from "./components/Services";
 import About from "./components/About";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import HostEventForm from './HostEventForm';
 import ParticipateEventForm from './ParticipateEventForm';
 import ProtectedRoute from './ProtectedRoute';
-import { auth } from './firebase';
-import Login from './Login';
 
 
 const App = () => {
